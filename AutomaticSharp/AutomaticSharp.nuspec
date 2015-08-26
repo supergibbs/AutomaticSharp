@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AutomaticSharp</id>
+    <version>$version$</version>
+    <authors>Jesse Mandel</authors>
+    <description>A C# client for Automatic Lab's REST API</description>
+    <summary>A C# client for Automatic Lab's REST API</summary>
+    <language>en-US</language>
+    <projectUrl>https://github.com/TrueCar/AutomaticSharp</projectUrl>
+    <licenseUrl>https://github.com/TrueCar/AutomaticSharp/blob/master/LICENSE</licenseUrl>
+    <iconUrl>https://s3.amazonaws.com/com.milesense.public/press/hi-res/Automatic+Logo/JPG/Automatic_RGB_Icon.jpg</iconUrl>
+    <tags>Automatic REST API</tags>
+    <dependencies>
+      <dependency id="RestSharp" version="105.1.0" />
+      <dependency id="Newtonsoft.Json" version="6.0.4" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
