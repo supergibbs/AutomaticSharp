@@ -16,16 +16,16 @@ namespace AutomaticSharp
         /// <param name="page">Specifies the page of paginated results to return.</param>
         /// <param name="limit">Number of results per page</param>
         /// <param name="startsWith">Tag prefix filter. Multiple values will be searched as an OR</param>
-        /// <returns></returns>
+        /// <returns>List of Tags</returns>
         public List<Tag> GetTags(string authToken, int page = 1, int limit = 10, params string[] startsWith)
         {
             var restRequest = CreateRestRequest("tag/", authToken);
 
             if (limit < 1 || limit > 250)
-                throw new ArgumentOutOfRangeException("limit", limit, "limit must be between 1 and 250");
+                throw new ArgumentOutOfRangeException(nameof(limit), limit, "limit must be between 1 and 250");
 
             if (page < 1)
-                throw new ArgumentOutOfRangeException("page", page, "page must greater than 0");
+                throw new ArgumentOutOfRangeException(nameof(page), page, "page must greater than 0");
 
             if (page != 1)
                 restRequest.AddParameter("page", page);
@@ -34,7 +34,7 @@ namespace AutomaticSharp
                 restRequest.AddParameter("limit", limit);
 
             if (startsWith != null && startsWith.Length > 0)
-                restRequest.AddParameter("tag__istartswith", String.Join(",", startsWith));
+                restRequest.AddParameter("tag__istartswith", string.Join(",", startsWith));
 
             var restResponse = _restClient.Execute<List<Tag>>(restRequest);
 

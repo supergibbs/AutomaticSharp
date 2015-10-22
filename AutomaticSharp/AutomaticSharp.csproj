@@ -52,7 +52,7 @@
     <Compile Include="JsonUtils\UnderscorePropertyNamesContractResolver.cs" />
     <Compile Include="JsonUtils\UnixTimeStampConverter.cs" />
     <Compile Include="JsonUtils\VehicleEventConverter.cs" />
-    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\TripSummaryAddressInfo.cs" />
     <Compile Include="Models\ApiAccessToken.cs" />
     <Compile Include="Models\AutomaticCollection.cs" />
     <Compile Include="Models\HardAccelerationVehicleEvent.cs" />
@@ -63,6 +63,8 @@
     <Compile Include="Models\SpeedingVehicleEvent.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\Trip.cs" />
+    <Compile Include="Models\TripTag.cs" />
+    <Compile Include="Models\TripTagCreate.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Models\VehicleEvent.cs" />
