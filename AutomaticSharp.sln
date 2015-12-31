@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticSharp", "AutomaticSharp\AutomaticSharp.csproj", "{7B01849E-7D9C-44C8-B913-F702D30D43F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticSharp.WebApi", "AutomaticSharp.MVC\AutomaticSharp.WebApi.csproj", "{06E5AA0C-D649-4DE0-9FCB-7E92F927B123}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticSharp.WebApi", "AutomaticSharp.WebApi\AutomaticSharp.WebApi.csproj", "{06E5AA0C-D649-4DE0-9FCB-7E92F927B123}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FBCBEC33-0944-41F9-B6D4-CCD8E01A821F}"
 	ProjectSection(SolutionItems) = preProject
