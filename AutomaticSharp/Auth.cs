@@ -13,7 +13,7 @@ namespace AutomaticSharp
     /// OAuth2 client for Automatic REST API
     /// https://developer.automatic.com/api-reference/#authentication
     /// </summary>
-    public class Auth
+    internal class Auth
     {
         public const string OAuthUrl = "https://accounts.automatic.com";
         private readonly RestClient _client;
