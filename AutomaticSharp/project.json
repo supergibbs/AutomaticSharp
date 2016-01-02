@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0-*",
+  "description": "AutomaticSharp Class Library",
+  "authors": [ "Jesse" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+    "frameworks": {
+        "net451": {
+            "dependencies": {
+                "RestSharp": "105.2.3"
+            },
+            "frameworkAssemblies": {
+                "System.Runtime.Serialization": "4.0.0.0",
+                "System.Web": "4.0.0.0"
+            }
+        }
+    },
+    "dependencies": {
+        "Newtonsoft.Json": "8.0.1"
+    }
+}
