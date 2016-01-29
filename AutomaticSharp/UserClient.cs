@@ -1,28 +1,56 @@
-﻿using System.Net;
-using System.Web;
+﻿using System.Threading.Tasks;
 using AutomaticSharp.Models;
-using RestSharp;
+using AutomaticSharp.Requests;
 
 namespace AutomaticSharp
 {
     public partial class Client
     {
         /// <summary>
-        /// Get User Information
+        /// Provides the basic account information about a user.
         /// Dependent on scope:user:profile
         /// </summary>
-        /// <param name="authToken"></param>
-        /// <returns>AutomaticUser</returns>
-        public User GetUserInfo(string authToken)
+        /// <returns><see cref="User"/></returns>
+        public async Task<AutomaticCollection<User>> GetUserInfoAsync(string userId = "me")
         {
-            var restRequest = CreateRestRequest("user/me/", authToken);
+            const string path = "user/";
 
-            var restResponse = _restClient.Execute<User>(restRequest);
+            return await GetAsync<AutomaticCollection<User>>(path + userId + "/");
+        }
 
-            if (restResponse.ResponseStatus == ResponseStatus.Completed && restResponse.StatusCode == HttpStatusCode.OK)
-                return restResponse.Data;
+        /// <summary>
+        /// Returns a <see cref="DeviceUserRelationship"/> Object
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<DeviceUserRelationship> GetDeviceAsync(string deviceId, string userId = "me")
+        {
+            const string path = "user/";
 
-            throw new HttpException((int)restResponse.StatusCode, restResponse.ErrorMessage, restResponse.ErrorException);
+            return await GetAsync<DeviceUserRelationship>(path + userId + "/device/" + deviceId + "/");
+        }
+
+        /// <summary>
+        /// Returns an array of <see cref="DeviceUserRelationship"/> Objects
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<AutomaticCollection<DeviceUserRelationship>> GetDevicesAsync(DevicesRequest request=null)
+        {
+            const string path = "user/";
+
+            if(request == null)
+                return await GetAsync<AutomaticCollection<DeviceUserRelationship>>(path + "me/device/");
+
+            return await GetAsync<AutomaticCollection<DeviceUserRelationship>>(path + (request.UserId ?? "me") + "/device/", request.CreateParameters());
+        }
+
+        public async Task DeleteEmergencyContactAsync(string emergencyContactId, string userId = "me")
+        {
+            const string path = "user/";
+
+            await DeleteAsync(path + userId + "/emergency-contact/" + emergencyContactId + "/");
         }
     }
 }

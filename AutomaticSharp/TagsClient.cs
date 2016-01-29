@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutomaticSharp.Models;
-using RestSharp;
+using AutomaticSharp.Requests;
 
 namespace AutomaticSharp
 {
@@ -12,36 +10,16 @@ namespace AutomaticSharp
         /// <summary>
         /// Provides a listing of all tags on a user account
         /// </summary>
-        /// <param name="authToken">Valid authentication token</param>
-        /// <param name="page">Specifies the page of paginated results to return.</param>
-        /// <param name="limit">Number of results per page</param>
-        /// <param name="startsWith">Tag prefix filter. Multiple values will be searched as an OR</param>
+        /// <param name="request"><see cref="TagsRequest"/></param>
         /// <returns>List of Tags</returns>
-        public List<Tag> GetTags(string authToken, int page = 1, int limit = 10, params string[] startsWith)
+        public async Task<List<Tag>> GetTagsAsync(TagsRequest request = null)
         {
-            var restRequest = CreateRestRequest("tag/", authToken);
+            const string path = "tag/";
 
-            if (limit < 1 || limit > 250)
-                throw new ArgumentOutOfRangeException(nameof(limit), limit, "limit must be between 1 and 250");
+            if (request == null)
+                return await GetAsync<List<Tag>>(path);
 
-            if (page < 1)
-                throw new ArgumentOutOfRangeException(nameof(page), page, "page must greater than 0");
-
-            if (page != 1)
-                restRequest.AddParameter("page", page);
-
-            if (limit != 10)
-                restRequest.AddParameter("limit", limit);
-
-            if (startsWith != null && startsWith.Length > 0)
-                restRequest.AddParameter("tag__istartswith", string.Join(",", startsWith));
-
-            var restResponse = _restClient.Execute<List<Tag>>(restRequest);
-
-            if (restResponse.ResponseStatus == ResponseStatus.Completed && restResponse.StatusCode == HttpStatusCode.OK)
-                return restResponse.Data;
-
-            throw new HttpException((int)restResponse.StatusCode, restResponse.ErrorMessage, restResponse.ErrorException);
+            return await GetAsync<List<Tag>>(path, request.CreateParameters());
         }
     }
 }

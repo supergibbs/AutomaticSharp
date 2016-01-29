@@ -1,45 +1,58 @@
-﻿using System.Net;
-using System.Web;
+﻿using System;
+using System.Threading.Tasks;
 using AutomaticSharp.Models;
-using RestSharp;
+using AutomaticSharp.Requests;
 
 namespace AutomaticSharp
 {
     public partial class Client
     {
         /// <summary>
-        /// Get list of vehicles
+        /// Get a vehicle
         /// </summary>
-        /// <param name="authToken"></param>
         /// <param name="vehicleId"></param>
         /// <returns>Vehicle</returns>
-        public Vehicle GetVehicle(string authToken, string vehicleId)
+        public async Task<Vehicle> GetVehicleAsync(string vehicleId)
         {
-            var restRequest = CreateRestRequest("vehicle/" + vehicleId, authToken);
+            const string path = "vehicle/";
 
-            var restResponse = _restClient.Execute<Vehicle>(restRequest);
+            if (string.IsNullOrEmpty(vehicleId))
+                throw new ArgumentNullException(nameof(vehicleId));
 
-            if (restResponse.ResponseStatus == ResponseStatus.Completed && restResponse.StatusCode == HttpStatusCode.OK)
-                return restResponse.Data;
-
-            throw new HttpException((int)restResponse.StatusCode, restResponse.ErrorMessage, restResponse.ErrorException);
+            return await GetAsync<Vehicle>(path + vehicleId);
         }
 
         /// <summary>
         /// Get list of vehicles
         /// </summary>
-        /// <param name="authToken"></param>
         /// <returns>AutomaticCollection&lt;Vehicle&gt;</returns>
-        public AutomaticCollection<Vehicle> GetVehicles(string authToken)
+        public async Task<AutomaticCollection<Vehicle>> GetVehiclesAsync(VehiclesRequest request = null)
         {
-            var restRequest = CreateRestRequest("vehicle/", authToken);
+            const string path = "vehicle/";
 
-            var restResponse = _restClient.Execute<AutomaticCollection<Vehicle>>(restRequest);
+            if (request == null)
+                return await GetAsync<AutomaticCollection<Vehicle>>(path);
 
-            if (restResponse.ResponseStatus == ResponseStatus.Completed && restResponse.StatusCode == HttpStatusCode.OK)
-                return restResponse.Data;
+            return await GetAsync<AutomaticCollection<Vehicle>>(path, request.CreateParameters());
+        }
 
-            throw new HttpException((int)restResponse.StatusCode, restResponse.ErrorMessage, restResponse.ErrorException);
+        /// <summary>
+        /// Returns a collection of <see cref="VehicleMilHistory"/> Objects
+        /// </summary>
+        /// <returns></returns>
+        public async Task<AutomaticCollection<VehicleMilHistory>> GetVehiclesMilHistoryAsync(VehiclesMilHistoryRequest request = null)
+        {
+            const string pathBase = "vehicle/";
+
+            if (request == null)
+                return await GetAsync<AutomaticCollection<VehicleMilHistory>>(pathBase + "mil/");
+
+            var path = pathBase;
+
+            if (!string.IsNullOrEmpty(request.VehicleId))
+                path += request.VehicleId + "/";
+
+            return await GetAsync<AutomaticCollection<VehicleMilHistory>>(path + "mil/", request.CreateParameters());
         }
     }
 }

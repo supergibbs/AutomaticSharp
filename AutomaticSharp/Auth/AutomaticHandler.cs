@@ -35,41 +35,41 @@ namespace AutomaticSharp.Auth
                 Principal = new ClaimsPrincipal(identity)
             };
 
-            //var identifier = GoogleHelper.GetId(payload);
-            //if (!string.IsNullOrEmpty(identifier))
-            //{
-            //    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, identifier, ClaimValueTypes.String, Options.ClaimsIssuer));
-            //}
+            var identifier = AutomaticHelper.GetId(payload);
+            if (!string.IsNullOrEmpty(identifier))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, identifier, ClaimValueTypes.String, Options.ClaimsIssuer));
+            }
 
-            //var givenName = GoogleHelper.GetGivenName(payload);
-            //if (!string.IsNullOrEmpty(givenName))
-            //{
-            //    identity.AddClaim(new Claim(ClaimTypes.GivenName, givenName, ClaimValueTypes.String, Options.ClaimsIssuer));
-            //}
+            var givenName = AutomaticHelper.GetFirstName(payload);
+            if (!string.IsNullOrEmpty(givenName))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.GivenName, givenName, ClaimValueTypes.String, Options.ClaimsIssuer));
+            }
 
-            //var familyName = GoogleHelper.GetFamilyName(payload);
-            //if (!string.IsNullOrEmpty(familyName))
-            //{
-            //    identity.AddClaim(new Claim(ClaimTypes.Surname, familyName, ClaimValueTypes.String, Options.ClaimsIssuer));
-            //}
+            var familyName = AutomaticHelper.GetLastName(payload);
+            if (!string.IsNullOrEmpty(familyName))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Surname, familyName, ClaimValueTypes.String, Options.ClaimsIssuer));
+            }
 
-            //var name = GoogleHelper.GetName(payload);
-            //if (!string.IsNullOrEmpty(name))
-            //{
-            //    identity.AddClaim(new Claim(ClaimTypes.Name, name, ClaimValueTypes.String, Options.ClaimsIssuer));
-            //}
+            var name = AutomaticHelper.GetUserName(payload);
+            if (!string.IsNullOrEmpty(name))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Name, name, ClaimValueTypes.String, Options.ClaimsIssuer));
+            }
 
-            //var email = GoogleHelper.GetEmail(payload);
-            //if (!string.IsNullOrEmpty(email))
-            //{
-            //    identity.AddClaim(new Claim(ClaimTypes.Email, email, ClaimValueTypes.String, Options.ClaimsIssuer));
-            //}
+            var email = AutomaticHelper.GetEmail(payload);
+            if (!string.IsNullOrEmpty(email))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Email, email, ClaimValueTypes.String, Options.ClaimsIssuer));
+            }
 
-            //var profile = GoogleHelper.GetProfile(payload);
-            //if (!string.IsNullOrEmpty(profile))
-            //{
-            //    identity.AddClaim(new Claim("urn:google:profile", profile, ClaimValueTypes.String, Options.ClaimsIssuer));
-            //}
+            var profile = AutomaticHelper.GetUrl(payload);
+            if (!string.IsNullOrEmpty(profile))
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Uri, profile, ClaimValueTypes.String, Options.ClaimsIssuer));
+            }
 
             await Options.Events.CreatingTicket(context);
 

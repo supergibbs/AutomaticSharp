@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutomaticSharp")]
-[assembly: AssemblyDescription("A C# client for Automatic's API")]
+[assembly: AssemblyDescription("A C# client for Automatic Lab's REST API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("TRUECar")]
 [assembly: AssemblyProduct("AutomaticSharp")]
 [assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
@@ -19,4 +19,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("39df292e-d68c-434d-92f1-536fe4bfc6c9")]
+[assembly: Guid("10e9504e-76f3-4e58-91d8-10cdbb2a462a")]

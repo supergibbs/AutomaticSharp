@@ -2,7 +2,7 @@
 {
     public static class AutomaticDefaults
     {
-        public const string AuthenticationScheme = "Automatic";
+        public const string AuthenticationScheme = "AutomaticLabs";
 
         public static readonly string AuthorizationEndpoint = "https://accounts.automatic.com/oauth/authorize";
 

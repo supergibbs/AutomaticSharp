@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutomaticSharp.JsonUtils;
-using RestSharp;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace AutomaticSharp
 {
@@ -14,46 +17,72 @@ namespace AutomaticSharp
         /// </summary>
         public const string BaseApiUrl = "https://api.automatic.com";
 
-        private readonly RestClient _restClient;
+        private readonly HttpClient _httpClient;
 
         /// <summary>
         /// Creates a new Automatic Client using the standard Automatic API URL
         /// </summary>
-        public Client() : this(BaseApiUrl) { }
+        /// <param name="authToken">Bearer token</param>
+        public Client(string authToken) : this(authToken, BaseApiUrl) { }
 
         /// <summary>
         /// Creates a new Automatic Client with a custom Automatic API URL (for debugging/testing)
         /// </summary>
+        /// <param name="authToken">Bearer token</param>
         /// <param name="apiUrl">Automatic API URL</param>
-        public Client(string apiUrl)
+        public Client(string authToken, string apiUrl)
         {
-            _restClient = new RestClient { BaseUrl = new Uri(apiUrl) };
-            _restClient.AddHandler("application/json", new JsonNetSerializer());
-            _restClient.AddHandler("text/json", new JsonNetSerializer());
+            if (string.IsNullOrWhiteSpace(authToken))
+                throw new ArgumentNullException(nameof(authToken), "Bearer token is required");
+
+            if (string.IsNullOrWhiteSpace(apiUrl))
+                throw new ArgumentNullException(nameof(apiUrl), "API URI is required");
+
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(apiUrl),
+                DefaultRequestHeaders =
+                {
+                    Authorization = new AuthenticationHeaderValue("Bearer", authToken),
+                    Accept = {
+                        MediaTypeWithQualityHeaderValue.Parse("text/json"),
+                        MediaTypeWithQualityHeaderValue.Parse("application/json")
+                    }
+                }
+            };
         }
 
         /// <summary>
-        /// Helper method for setting up a REST request
+        /// Helper method for making a REST GET request
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="resource"></param>
-        /// <param name="authToken"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        private static RestRequest CreateRestRequest(string resource, string authToken)
+        private async Task<T> GetAsync<T>(string resource, Dictionary<string, string> parameters = null)
         {
-            if (string.IsNullOrWhiteSpace(authToken))
-                throw new UnauthorizedAccessException("Missing or invalid auth token");
+            var path = resource;
 
-            var restRequest = new RestRequest
+            if (parameters != null)
             {
-                Resource = resource,
-                Method = Method.GET,
-                RequestFormat = DataFormat.Json,
-                JsonSerializer = new JsonNetSerializer()
-            };
+                var query = new FormUrlEncodedContent(parameters).ToString();
 
-            restRequest.AddHeader("Authorization", "Bearer " + authToken);
+                if (string.IsNullOrEmpty(query))
+                    path += "?" + query;
+            }
 
-            return restRequest;
+            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            var result = await _httpClient.SendAsync(request);
+            var content = await result.Content.ReadAsStringAsync();
+
+            return new JsonNetSerializer().Deserialize<T>(content);
+        }
+
+        private async Task DeleteAsync(string path)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, path);
+
+            await _httpClient.SendAsync(request);
         }
     }
 }

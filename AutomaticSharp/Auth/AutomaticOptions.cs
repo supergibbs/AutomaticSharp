@@ -12,7 +12,7 @@ namespace AutomaticSharp.Auth
         {
             AuthenticationScheme = AutomaticDefaults.AuthenticationScheme;
             DisplayName = AuthenticationScheme;
-            CallbackPath = new PathString("/");
+            CallbackPath = new PathString("/automatic-login");
             AuthorizationEndpoint = AutomaticDefaults.AuthorizationEndpoint;
             TokenEndpoint = AutomaticDefaults.TokenEndpoint;
             UserInformationEndpoint = AutomaticDefaults.UserInformationEndpoint;

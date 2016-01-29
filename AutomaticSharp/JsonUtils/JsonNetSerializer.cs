@@ -1,11 +1,23 @@
 ﻿using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.Deserializers;
-using RestSharp.Serializers;
 
 namespace AutomaticSharp.JsonUtils
 {
-    internal class JsonNetSerializer : ISerializer, IDeserializer
+
+#if NET40 || NET45
+    using RestSharp;
+    using RestSharp.Deserializers;
+    using RestSharp.Serializers;
+
+    internal partial class JsonNetSerializer : ISerializer, IDeserializer
+    {
+        public T Deserialize<T>(IRestResponse response)
+        {
+            return JsonConvert.DeserializeObject<T>(response.Content, _jsonSerializerSettings);
+        }
+    }
+#endif
+
+    internal partial class JsonNetSerializer
     {
         private readonly JsonSerializerSettings _jsonSerializerSettings;
 
@@ -34,9 +46,9 @@ namespace AutomaticSharp.JsonUtils
             return JsonConvert.SerializeObject(obj, _jsonSerializerSettings);
         }
 
-        public T Deserialize<T>(IRestResponse response)
+        public T Deserialize<T>(string jsonContent)
         {
-            return JsonConvert.DeserializeObject<T>(response.Content, _jsonSerializerSettings);
+            return JsonConvert.DeserializeObject<T>(jsonContent, _jsonSerializerSettings);
         }
 
         public string RootElement { get; set; }

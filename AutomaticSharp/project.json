@@ -1,22 +1,50 @@
 {
-  "version": "1.0.0-*",
-  "description": "AutomaticSharp Class Library",
-  "authors": [ "Jesse" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+    "version": "1.0.0-*",
+    "authors": [ "Jesse Mandel" ],
+    "description": "AutomaticSharp Class Library",
+    "summary": "A C# client for Automatic Lab's REST API",
+    "language": "en-US",
+    "projectUrl": "https://github.com/TrueCar/AutomaticSharp",
+    "licenseUrl": "https://github.com/TrueCar/AutomaticSharp/blob/master/LICENSE",
+    "requireLicenseAcceptance": false,
+    "iconUrl": "https://s3.amazonaws.com/com.milesense.public/press/hi-res/Automatic+Logo/JPG/Automatic_RGB_Icon.jpg",
+    "tags": [ "Automatic", "REST", "API" ],
     "frameworks": {
         "net451": {
-            "dependencies": {
-                "RestSharp": "105.2.3"
-            },
             "frameworkAssemblies": {
                 "System.Runtime.Serialization": "4.0.0.0",
                 "System.Web": "4.0.0.0"
             }
+        },
+        "net452": {
+            "frameworkAssemblies": {
+                "System.Runtime.Serialization": "4.0.0.0",
+                "System.Web": "4.0.0.0"
+            }
+        },
+        "net46": {
+            "frameworkAssemblies": {
+                "System.Runtime.Serialization": "4.0.0.0",
+                "System.Web": "4.0.0.0"
+            }
+        },
+        "dotnet5.4": {
+            "compilationOptions": {
+                "define": [ "NET54" ]
+            },
+            "dependencies": {
+                "Microsoft.CSharp": "4.0.1-beta-23516",
+                "System.Collections": "4.0.11-beta-23516",
+                "System.Linq": "4.0.1-beta-23516",
+                "System.Runtime": "4.0.21-beta-23516",
+                "System.Threading": "4.0.11-beta-23516"
+            }
         }
     },
     "dependencies": {
-        "Newtonsoft.Json": "8.0.1"
+        "Newtonsoft.Json": "8.0.2",
+        "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
+        "Microsoft.AspNet.Authentication.OAuth": "1.0.0-rc1-final",
+        "System.Runtime.Serialization.Primitives": "4.1.0-beta-23516"
     }
 }

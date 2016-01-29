@@ -1,39 +1,40 @@
-﻿using System.Net;
-using System.Web;
+﻿using System;
+using System.Threading.Tasks;
 using AutomaticSharp.Models;
-using RestSharp;
+using AutomaticSharp.Requests;
 
 namespace AutomaticSharp
 {
     public partial class Client
     {
         /// <summary>
-        /// 
+        /// Gets trip
         /// </summary>
-        /// <param name="authToken"></param>
-        /// <param name="vehicleId"></param>
-        /// <param name="page"></param>
-        /// <param name="limit"></param>
+        /// <param name="tripId"></param>
         /// <returns></returns>
-        public AutomaticCollection<Trip> GetTrips(string authToken, string vehicleId = null, int page = 1, int limit = 10)
+        public async Task<Trip> GetTripAsync(string tripId)
         {
-            var restRequest = CreateRestRequest("trip/", authToken);
+            const string path = "trip/";
 
-            if (!string.IsNullOrWhiteSpace(vehicleId))
-                restRequest.AddParameter("vehicle", vehicleId); //Get only trips for this vehicle
+            if (string.IsNullOrEmpty(tripId))
+                throw new ArgumentNullException(nameof(tripId));
 
-            if (page != 1)
-                restRequest.AddParameter("page", page);
+            return await GetAsync<Trip>(path + tripId + "/");
+        }
 
-            if (limit != 10)
-                restRequest.AddParameter("limit", limit);
+        /// <summary>
+        /// Gets one or more trips with paging
+        /// </summary>
+        /// <param name="tripsRequest"></param>
+        /// <returns></returns>
+        public async Task<AutomaticCollection<Trip>> GetTripsAsync(TripsRequest tripsRequest = null)
+        {
+            const string path = "trip/";
 
-            var restResponse = _restClient.Execute<AutomaticCollection<Trip>>(restRequest);
+            if (tripsRequest == null)
+                return await GetAsync<AutomaticCollection<Trip>>(path);
 
-            if (restResponse.ResponseStatus == ResponseStatus.Completed && restResponse.StatusCode == HttpStatusCode.OK)
-                return restResponse.Data;
-
-            throw new HttpException((int)restResponse.StatusCode, restResponse.ErrorMessage, restResponse.ErrorException);
+            return await GetAsync<AutomaticCollection<Trip>>(path, tripsRequest.CreateParameters());
         }
     }
 }
