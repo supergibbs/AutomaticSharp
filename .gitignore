@@ -213,3 +213,7 @@ ModelManifest.xml
 
 #SourceTree merge file
 *.orig
+
+#compiled CSS
+site.css
+site.min.css
