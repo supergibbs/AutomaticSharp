@@ -5,22 +5,33 @@ A C# client for Automatic's REST API.
 
 ### Authentication
 
-The [Automatic OAuth2 Workflow](https://developer.automatic.com/api-reference/#oauth-workflow) can be completed as follows.
+The [Automatic OAuth2 Workflow](https://developer.automatic.com/api-reference/#oauth-workflow) can be completed using the `Microsoft.AspNet.Authentication.OAuth` framwork.
 
+In a modern webapp you can add this to your `startup.cs`
 ```c#
-var code = "users code";
-var account = new Account {
-    ClientId = "your client id"
-    ClientSecret = "your client id"
-};
+app.UseAutomaticAuthentication(options =>
+    {        
+        //Add Automatic API key
+        options.ClientId = Configuration["automatic:clientid"];
+        options.ClientSecret = Configuration["automatic:clientsecret"];
+        
+        //Add desired scopes       
+        options.AddScope(AutomaticScope.Public);
+        options.AddScope(AutomaticScope.UserProfile);
+        options.AddScope(AutomaticScope.Location);
+        options.AddScope(AutomaticScope.VehicleEvents);
+        options.AddScope(AutomaticScope.VehicleProfile);
+        options.AddScope(AutomaticScope.Trip);
+        options.AddScope(AutomaticScope.Behavior);       
+    });
 
-var automaticAuth = new Auth();
-
-var authToken = automaticAuth.GetAccessToken(account, code.Trim());
 ```
-
-Once you have the authtoken, you can store it in the session or elsewhere for future data queries.
 
 ### Getting Data
 
-Using the Client you can query for data from Automatic's REST API.
+Using the Client you can query for data from Automatic's REST API. More examples to come.
+
+```c#
+var client = new Client(access_token);
+var vehicles = (await client.GetVehiclesAsync()).Results;
+```
