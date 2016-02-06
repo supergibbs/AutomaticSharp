@@ -1,11 +1,14 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using AutomaticSharp.Auth;
+using AutomaticSharp.Demo.Config;
 using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authentication.OAuth;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNet.Http;
+using Microsoft.Extensions.WebEncoders;
 
 namespace AutomaticSharp.Demo
 {
@@ -30,19 +33,21 @@ namespace AutomaticSharp.Demo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-			//services.AddAuthentication(options => options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+            services.AddAuthentication(options => options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+            
             // Add framework services.
             services.AddMvc();
+
+            services.AddInstance(AutoMapperConfig.Configure());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-				app.UseDeveloperExceptionPage();
-			else
-				app.UseExceptionHandler("/Home/Error");
-
+                app.UseDeveloperExceptionPage();
+            else
+                app.UseExceptionHandler("/Home/Error");
 
             app.UseIISPlatformHandler(); //app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
@@ -51,7 +56,7 @@ namespace AutomaticSharp.Demo
             app.UseCookieAuthentication(options =>
             {
                 options.AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-              
+
                 options.LoginPath = new PathString("/Home/Index/");
                 options.LogoutPath = new PathString("/Home/Logout/");
                 options.AccessDeniedPath = new PathString("/Home/Index/");
@@ -60,13 +65,13 @@ namespace AutomaticSharp.Demo
                 options.SlidingExpiration = true;
                 options.CookieName = "AUTOMATICSHARPDEMO";
             });
-        
+
             app.UseAutomaticAuthentication(options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.ClientId = Configuration["automatic:clientid"];
                 options.ClientSecret = Configuration["automatic:clientsecret"];
-                
+
                 options.AddScope(AutomaticScope.Public);
                 options.AddScope(AutomaticScope.UserProfile);
                 options.AddScope(AutomaticScope.Location);
@@ -77,16 +82,16 @@ namespace AutomaticSharp.Demo
                 options.AddScope(AutomaticScope.Trip);
                 options.AddScope(AutomaticScope.Behavior);
 
-                //options.Events = new OAuthEvents()
-                //{
-                //    OnRemoteFailure = ctx =>
+                options.Events = new OAuthEvents()
+                {
+                    OnRemoteError = ctx =>
 
-                //    {
-                //        ctx.Response.Redirect("/error?FailureMessage=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
-                //        ctx.HandleResponse();
-                //        return Task.FromResult(0);
-                //    }
-                //};
+                    {
+                        ctx.Response.Redirect("/Error?failureMessage=" + UrlEncoder.Default.UrlEncode(ctx.Error.Message));
+                        ctx.HandleResponse();
+                        return Task.FromResult(0);
+                    }
+                };
             });
 
             app.UseMvcWithDefaultRoute();

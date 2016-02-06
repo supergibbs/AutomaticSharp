@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using AutomaticSharp.Auth;
 using AutomaticSharp.Demo.ViewModels;
 using AutomaticSharp.Requests;
+using AutoMapper;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http;
@@ -12,27 +14,51 @@ namespace AutomaticSharp.Demo.Controllers
 {
     public class HomeController : Controller
     {
+        private IMapper Mapper { get; }
+
+        public HomeController(IMapper mapper)
+        {
+            Mapper = mapper;
+        }
+
         public async Task<IActionResult> Index()
         {
             var model = new HomeViewModel();
 
             if (User.Identity.IsAuthenticated)
             {
-                var client = new Client(User.FindFirst(c=>c.Type == "access_token").Value);
-                model.Vehicles = (await client.GetVehiclesAsync()).Results;
+                var client = new Client(User.FindFirst(c => c.Type == "access_token").Value);
+
+                var vehicles = (await client.GetVehiclesAsync()).Results;
+
+                model.Vehicles = vehicles.ToDictionary(key => key.Id, vehicle => vehicle.DisplayName ?? vehicle.Id);
             }
 
             return View(model);
         }
 
-        public IActionResult Docs()
+        [Authorize]
+        [Route("Home/Vehicle/{id}")]
+        public async Task<IActionResult> Vehicle(string id)
         {
-            return View();
+            var client = new Client(User.FindFirst(c => c.Type == "access_token").Value);
+            var getVehicleTask = client.GetVehicleAsync(id);
+            var getTripsTask = client.GetTripsAsync(new TripsRequest { VehicleId = id });
+
+            var vehicle = await getVehicleTask;
+
+            var model = Mapper.Map<VehicleViewModel>(vehicle);
+
+            var trips = await getTripsTask;
+
+            model.Trips = trips.Results.Select(Mapper.Map<TripViewModel>).ToList();
+
+            return View(model);
         }
 
-        public IActionResult Error()
+        public IActionResult Error(string failureMessage = null)
         {
-            return View();
+            return View(failureMessage ?? string.Empty);
         }
 
         [HttpPost]
