@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		global.json = global.json
 		LICENSE = LICENSE
+		MyGet.ps1 = MyGet.ps1
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -28,7 +29,7 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection	
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{39DF292E-D68C-434D-92F1-536FE4BFC6C9} = {8FA1EE9A-24CA-4F33-9269-D658D3DCEDCE}
 	EndGlobalSection
