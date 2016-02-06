@@ -6,3 +6,4 @@ $dnx = "$dnxRoot\dnx.exe"
 $dnxTooling = "$dnxRoot\lib\Microsoft.Dnx.Tooling\Microsoft.Dnx.Tooling.dll"
  
 & $dnx $dnxTooling restore ".\src\AutomaticSharp"
+& $dnx --appbase ".\src\AutomaticSharp" $dnxTooling pack ".\src\AutomaticSharp" --configuration Release --out ".\artifacts\bin\AutomaticSharp"
