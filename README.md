@@ -1,4 +1,6 @@
-# AutomaticSharp
+[![Build status](https://ci.appveyor.com/api/projects/status/nt6f9847b1mys8xx/branch/master?svg=true)](https://ci.appveyor.com/project/supergibbs/automaticsharp/branch/master)
+[![NuGet](https://img.shields.io/nuget/v/AutomaticSharp.svg)](https://www.nuget.org/packages/AutomaticSharp)
+# AutomaticSharp 
 A C# client for Automatic's REST API. 
 
 ## Usage
