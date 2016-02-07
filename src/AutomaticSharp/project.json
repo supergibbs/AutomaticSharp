@@ -12,33 +12,10 @@
     "frameworks": {
         "net451": {
             "frameworkAssemblies": {
-                "System.Runtime.Serialization": "4.0.0.0",
-                "System.Web": "4.0.0.0"
+                "System.Runtime.Serialization": "4.0.0.0"
             }
         },
-        "net452": {
-            "frameworkAssemblies": {
-                "System.Runtime.Serialization": "4.0.0.0",
-                "System.Web": "4.0.0.0"
-            }
-        },
-        "net46": {
-            "frameworkAssemblies": {
-                "System.Runtime.Serialization": "4.0.0.0",
-                "System.Web": "4.0.0.0"
-            }
-        },
-        "dotnet5.4": {
-            "compilationOptions": {
-                "define": [ "NET54" ]
-            },
-            "dependencies": {
-                "Microsoft.CSharp": "4.0.1-beta-23516",
-                "System.Collections": "4.0.11-beta-23516",
-                "System.Linq": "4.0.1-beta-23516",
-                "System.Runtime": "4.0.21-beta-23516"
-            }
-        }
+        "dotnet5.4": { }
     },
     "dependencies": {
         "Newtonsoft.Json": "8.0.2",
