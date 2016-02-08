@@ -4,7 +4,7 @@ var semver = require('semver');
 var file = '../src/AutomaticSharp/project.json';
 var semversion;
 
-if (process.env.APPVEYOR_REPO_TAG) {
+if (process.env.APPVEYOR_REPO_TAG === 'true') {
     semversion = process.env.APPVEYOR_REPO_TAG_NAME.substring(1);
 } else {
     var buildVersion = process.env.APPVEYOR_BUILD_VERSION.substring(1);
