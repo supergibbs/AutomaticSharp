@@ -7,7 +7,7 @@ A C# client for Automatic's REST API.
 
 ### Authentication
 
-The [Automatic OAuth2 Workflow](https://developer.automatic.com/api-reference/#oauth-workflow) can be completed using the `Microsoft.AspNet.Authentication.OAuth` framwork.
+The [Automatic OAuth2 Workflow](https://developer.automatic.com/api-reference/#oauth-workflow) can be completed using the `Microsoft.AspNet.Authentication.OAuth` framework.
 
 In a modern webapp you can add this to your `startup.cs`
 ```c#
