@@ -31,7 +31,7 @@ app.UseAutomaticAuthentication(options =>
 
 ### Getting Data
 
-Using the Client you can query for data from Automatic's REST API. More examples to come.
+Using the Client you can query for data from Automatic's REST API. More examples can be found in the demo application which can be [viewed here](http://automaticsharp.azurewebsites.net/).
 
 ```c#
 var client = new Client(access_token);

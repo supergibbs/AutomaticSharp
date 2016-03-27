@@ -13,8 +13,8 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -42,10 +42,21 @@
         </div>
     </div>
     <div class="container">
-        @RenderBody()
+        <div style="min-height: 300px;">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
-            <p>&copy; 2016 - Automatic#</p>
+            <p class="clearfix">
+                <span class="pull-left">&copy; 2016 - Automatic#</span>
+
+                <span class="pull-right">
+                    <a class="github-button" href="https://github.com/TrueCar/AutomaticSharp" data-count-href="/TrueCar/AutomaticSharp/watchers" data-count-api="/repos/TrueCar/AutomaticSharp#subscribers_count" data-count-aria-label="# watchers on GitHub" aria-label="Watch TrueCar/AutomaticSharp on GitHub">Watch</a>
+                    <a class="github-button" href="https://github.com/TrueCar/AutomaticSharp" data-count-href="/TrueCar/AutomaticSharp/stargazers" data-count-api="/repos/TrueCar/AutomaticSharp#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star TrueCar/AutomaticSharp on GitHub">Star</a>
+                    <a class="github-button" href="https://github.com/TrueCar/AutomaticSharp/fork" data-count-href="/TrueCar/AutomaticSharp/network" data-count-api="/repos/TrueCar/AutomaticSharp#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork TrueCar/AutomaticSharp on GitHub">Fork</a>
+                    <a class="github-button" href="https://github.com/TrueCar/AutomaticSharp/issues" data-count-api="/repos/TrueCar/AutomaticSharp#open_issues_count" data-count-aria-label="# issues on GitHub" aria-label="Issue TrueCar/AutomaticSharp on GitHub">Issue</a>
+                </span>
+            </p>
         </footer>
     </div>
 
@@ -67,5 +78,7 @@
     </environment>
 
     @RenderSection("scripts", required: false)
+
+    <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>
