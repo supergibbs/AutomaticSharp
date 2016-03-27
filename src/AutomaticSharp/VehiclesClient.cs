@@ -19,7 +19,7 @@ namespace AutomaticSharp
             if (string.IsNullOrEmpty(vehicleId))
                 throw new ArgumentNullException(nameof(vehicleId));
 
-            return await GetAsync<Vehicle>(path + vehicleId);
+            return await GetAsync<Vehicle>(path + vehicleId + '/');
         }
 
         /// <summary>
