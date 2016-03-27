@@ -62,6 +62,6 @@ namespace AutomaticSharp.Models
         /// <summary>
         /// Amount of fuel as percentage of total capacity
         /// </summary>
-        public string FuelLevelPercent { get; set; }
+        public double FuelLevelPercent { get; set; }
     }
 }
