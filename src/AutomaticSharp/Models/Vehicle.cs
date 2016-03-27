@@ -60,8 +60,33 @@ namespace AutomaticSharp.Models
         public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
+        /// The device plugged into this vehicle currently
+        /// </summary>
+        public string Device { get; set; }
+
+        /// <summary>
+        /// Fuel Grade
+        /// </summary>
+        public string FuelGrade { get; set; }
+
+        /// <summary>
         /// Amount of fuel as percentage of total capacity
         /// </summary>
         public double FuelLevelPercent { get; set; }
+
+        /// <summary>
+        /// Battery voltage
+        /// </summary>
+        public double BatteryVoltage { get; set; }
+
+        /// <summary>
+        /// Last known location
+        /// </summary>
+        public double LastestLocation { get; set; }
+
+        /// <summary>
+        /// Currently active MILs	
+        /// </summary>
+        public string ActiveDtcs { get; set; }
     }
 }

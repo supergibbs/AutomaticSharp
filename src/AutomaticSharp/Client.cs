@@ -78,11 +78,13 @@ namespace AutomaticSharp
             return new JsonNetSerializer().Deserialize<T>(content);
         }
 
-        private async Task DeleteAsync(string path)
+        private async Task<T> DeleteAsync<T>(string path)
         {
             var request = new HttpRequestMessage(HttpMethod.Delete, path);
+            var result = await _httpClient.SendAsync(request);
+            var content = await result.Content.ReadAsStringAsync();
 
-            await _httpClient.SendAsync(request);
+            return new JsonNetSerializer().Deserialize<T>(content);
         }
     }
 }

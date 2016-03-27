@@ -36,7 +36,7 @@ namespace AutomaticSharp
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<AutomaticCollection<DeviceUserRelationship>> GetDevicesAsync(DevicesRequest request=null)
+        public async Task<AutomaticCollection<DeviceUserRelationship>> GetDevicesAsync(DevicesRequest request = null)
         {
             const string path = "user/";
 
@@ -46,11 +46,11 @@ namespace AutomaticSharp
             return await GetAsync<AutomaticCollection<DeviceUserRelationship>>(path + (request.UserId ?? "me") + "/device/", request.CreateParameters());
         }
 
-        public async Task DeleteEmergencyContactAsync(string emergencyContactId, string userId = "me")
+        public async Task<EmergencyContact> DeleteEmergencyContactAsync(string emergencyContactId, string userId = "me")
         {
             const string path = "user/";
 
-            await DeleteAsync(path + userId + "/emergency-contact/" + emergencyContactId + "/");
+            return await DeleteAsync<EmergencyContact>(path + userId + "/emergency-contact/" + emergencyContactId + "/");
         }
     }
 }

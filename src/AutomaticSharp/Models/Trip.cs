@@ -17,6 +17,11 @@ namespace AutomaticSharp.Models
         public string Url { get; set; }
 
         /// <summary>
+        /// Driver URI
+        /// </summary>
+        public string Driver { get; set; }
+
+        /// <summary>
         /// User URI
         /// </summary>
         public string User { get; set; }
