@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AutomaticSharp.Models
 {
@@ -87,6 +88,6 @@ namespace AutomaticSharp.Models
         /// <summary>
         /// Currently active MILs	
         /// </summary>
-        public string ActiveDtcs { get; set; }
+        public List<string> ActiveDtcs { get; set; }
     }
 }
