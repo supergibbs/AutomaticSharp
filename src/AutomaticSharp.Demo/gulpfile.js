@@ -29,10 +29,13 @@ gulp.task("clean:js", function (cb) {
 
 gulp.task("clean:css", function (cb) {
     rimraf(paths.concatCssDest, cb);
+});
+
+gulp.task("clean:mincss", function(cb) {
     rimraf(paths.concatMinCssDest, cb);
 });
 
-gulp.task("clean", ["clean:js", "clean:css"]);
+gulp.task("clean", ["clean:js", "clean:css", "clean:mincss"]);
 
 gulp.task("min:js", function () {
     return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
