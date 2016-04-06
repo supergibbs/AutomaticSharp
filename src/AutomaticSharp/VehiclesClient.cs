@@ -37,22 +37,22 @@ namespace AutomaticSharp
         }
 
         /// <summary>
-        /// Returns a collection of <see cref="VehicleMilHistory"/> Objects
+        /// Returns a collection of <see cref="VehicleMil"/> Objects
         /// </summary>
         /// <returns></returns>
-        public async Task<AutomaticCollection<VehicleMilHistory>> GetVehiclesMilHistoryAsync(VehiclesMilHistoryRequest request = null)
+        public async Task<AutomaticCollection<VehicleMil>> GetVehiclesMilHistoryAsync(VehiclesMilHistoryRequest request = null)
         {
             const string pathBase = "vehicle/";
 
             if (request == null)
-                return await GetAsync<AutomaticCollection<VehicleMilHistory>>(pathBase + "mil/");
+                return await GetAsync<AutomaticCollection<VehicleMil>>(pathBase + "mil/");
 
             var path = pathBase;
 
             if (!string.IsNullOrEmpty(request.VehicleId))
                 path += request.VehicleId + "/";
 
-            return await GetAsync<AutomaticCollection<VehicleMilHistory>>(path + "mil/", request.CreateParameters());
+            return await GetAsync<AutomaticCollection<VehicleMil>>(path + "mil/", request.CreateParameters());
         }
     }
 }

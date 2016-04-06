@@ -88,6 +88,6 @@ namespace AutomaticSharp.Models
         /// <summary>
         /// Currently active MILs	
         /// </summary>
-        public List<string> ActiveDtcs { get; set; }
+        public List<VehicleMil> ActiveDtcs { get; set; }
     }
 }

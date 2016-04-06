@@ -2,7 +2,7 @@
 
 namespace AutomaticSharp.Models
 {
-    public class VehicleMilHistory
+    public class VehicleMil
     {
         /// <summary>
         /// Malfunction indicator lamp code
