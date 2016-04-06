@@ -25,7 +25,7 @@ namespace AutomaticSharp.Demo.Controllers
         {
             var model = new HomeViewModel();
 
-            if (User.Identity.IsAuthenticated)
+            if(User.Identity.IsAuthenticated)
             {
                 var client = new Client(User.FindFirst(c => c.Type == "access_token").Value);
 
