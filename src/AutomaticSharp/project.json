@@ -1,5 +1,5 @@
 {
-    "version": "1.0.3-*",
+    "version": "1.0.4-*",
     "authors": [ "Jesse Mandel" ],
     "description": "AutomaticSharp Class Library",
     "summary": "A C# client for Automatic Lab's REST API",

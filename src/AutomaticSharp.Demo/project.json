@@ -7,7 +7,7 @@
 
     "dependencies": {
         "AutoMapper": "4.2.1",
-        "AutomaticSharp": "1.0.3-*",
+        "AutomaticSharp": "1.0.4-*",
         "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
         "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
         "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
