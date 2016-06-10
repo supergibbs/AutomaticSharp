@@ -1,10 +1,10 @@
-{
+﻿{
     "version": "1.0.4-*",
     "authors": [ "Jesse Mandel" ],
     "description": "AutomaticSharp Class Library",
     "language": "en-US",
     "packOptions": {
-        "summary": "A C# client for Automatic Lab's REST API",
+        "summary": "OAuth authorization middleware for Automatic Lab's REST API",
         "projectUrl": "https://github.com/TrueCar/AutomaticSharp",
         "licenseUrl": "https://github.com/TrueCar/AutomaticSharp/blob/master/LICENSE",
         "requireLicenseAcceptance": false,
@@ -14,21 +14,19 @@
     "frameworks": {
         "net451": {
             "dependencies": {
-                "System.Net.Http": "4.0.0"
-            },
-            "frameworkAssemblies": {
-                "System.Runtime.Serialization": "4.0.0.0"
+                "System.Dynamic.Runtime": "4.0.0"
             }
         },
         "netstandard1.2": {
             "imports": "dnxcore50",
+
             "dependencies": {
-                "System.Runtime.Serialization.Primitives": "4.1.1-rc2-24027",
-                "System.Net.Http": "4.0.1-rc2-24027"
+                "System.Dynamic.Runtime": "4.0.11-rc2-24027"
             }
         }
     },
     "dependencies": {
-        "Newtonsoft.Json": "8.0.4-beta1"
+        "Microsoft.AspNetCore.Authentication": "1.0.0-rc2-final",
+        "Microsoft.AspNetCore.Authentication.OAuth": "1.0.0-rc2-final"
     }
 }
