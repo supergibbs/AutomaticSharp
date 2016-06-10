@@ -1,14 +1,17 @@
 ﻿using System;
-using Microsoft.AspNet.Authentication;
-using Microsoft.AspNet.Authentication.OAuth;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.DataProtection;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.OptionsModel;
-using Microsoft.Extensions.WebEncoders;
+using Microsoft.Extensions.Options;
 
 namespace AutomaticSharp.Auth
 {
+    /// <summary>
+    /// An ASP.NET Core middleware for authenticating users using Automatic OAuth 2.0.
+    /// </summary>
     public class AutomaticMiddleware : OAuthMiddleware<AutomaticOptions>
     {
         /// <summary>
@@ -24,51 +27,37 @@ namespace AutomaticSharp.Auth
             RequestDelegate next,
             IDataProtectionProvider dataProtectionProvider,
             ILoggerFactory loggerFactory,
-            IUrlEncoder encoder,
+            UrlEncoder encoder,
             IOptions<SharedAuthenticationOptions> sharedOptions,
-            AutomaticOptions options)
+            IOptions<AutomaticOptions> options)
             : base(next, dataProtectionProvider, loggerFactory, encoder, sharedOptions, options)
         {
             if (next == null)
-            {
                 throw new ArgumentNullException(nameof(next));
-            }
 
             if (dataProtectionProvider == null)
-            {
                 throw new ArgumentNullException(nameof(dataProtectionProvider));
-            }
 
             if (loggerFactory == null)
-            {
                 throw new ArgumentNullException(nameof(loggerFactory));
-            }
 
             if (encoder == null)
-            {
                 throw new ArgumentNullException(nameof(encoder));
-            }
 
             if (sharedOptions == null)
-            {
                 throw new ArgumentNullException(nameof(sharedOptions));
-            }
 
             if (options == null)
-            {
                 throw new ArgumentNullException(nameof(options));
-            }
 
             if (Options.Scope.Count == 0)
-            {
                 Options.AddScope(AutomaticScope.Public);
-            }
         }
 
         /// <summary>
-        /// Provides the <see cref="AuthenticationHandler"/> object for processing authentication-related requests.
+        /// Provides the <see cref="AuthenticationHandler{TOptions}"/> object for processing authentication-related requests.
         /// </summary>
-        /// <returns>An <see cref="AuthenticationHandler"/> configured with the <see cref="AutomaticOptions"/> supplied to the constructor.</returns>
+        /// <returns>An <see cref="AuthenticationHandler{TOptions}"/> configured with the <see cref="AutomaticOptions"/> supplied to the constructor.</returns>
         protected override AuthenticationHandler<AutomaticOptions> CreateHandler()
         {
             return new AutomaticHandler(Backchannel);

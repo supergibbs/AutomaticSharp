@@ -1,26 +1,36 @@
-{
+﻿{
     "version": "1.0.4-*",
     "authors": [ "Jesse Mandel" ],
     "description": "AutomaticSharp Class Library",
-    "summary": "A C# client for Automatic Lab's REST API",
     "language": "en-US",
-    "projectUrl": "https://github.com/TrueCar/AutomaticSharp",
-    "licenseUrl": "https://github.com/TrueCar/AutomaticSharp/blob/master/LICENSE",
-    "requireLicenseAcceptance": false,
-    "iconUrl": "https://s3.amazonaws.com/com.milesense.public/press/hi-res/Automatic+Logo/JPG/Automatic_RGB_Icon.jpg",
-    "tags": [ "Automatic", "REST", "API" ],
+    "packOptions": {
+        "summary": "A C# client for Automatic Lab's REST API",
+        "projectUrl": "https://github.com/TrueCar/AutomaticSharp",
+        "licenseUrl": "https://github.com/TrueCar/AutomaticSharp/blob/master/LICENSE",
+        "requireLicenseAcceptance": false,
+        "iconUrl": "https://s3.amazonaws.com/com.milesense.public/press/hi-res/Automatic+Logo/JPG/Automatic_RGB_Icon.jpg",
+        "tags": [ "Automatic", "REST", "API" ]
+    },
     "frameworks": {
         "net451": {
+            "dependencies": {
+                "System.Net.Http": "4.0.0"
+            },
             "frameworkAssemblies": {
                 "System.Runtime.Serialization": "4.0.0.0"
             }
         },
-        "dotnet5.4": { }
+        "netstandard1.2": {
+            "imports": "dnxcore50",
+            "dependencies": {
+                "System.Runtime.Serialization.Primitives": "4.1.1-rc2-24027",
+                "System.Net.Http": "4.0.1-rc2-24027"
+            }
+        }
     },
     "dependencies": {
-        "Newtonsoft.Json": "8.0.2",
-        "Microsoft.AspNet.Authentication": "1.0.0-rc1-final",
-        "Microsoft.AspNet.Authentication.OAuth": "1.0.0-rc1-final",
-        "System.Runtime.Serialization.Primitives": "4.1.0-beta-23516"
+        "Newtonsoft.Json": "8.0.4-beta1",
+        "Microsoft.AspNetCore.Authentication": "1.0.0-rc2-final",
+        "Microsoft.AspNetCore.Authentication.OAuth": "1.0.0-rc2-final"
     }
 }

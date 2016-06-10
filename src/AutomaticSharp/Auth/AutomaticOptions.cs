@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNet.Authentication.OAuth;
-using Microsoft.AspNet.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace AutomaticSharp.Auth
 {
@@ -8,6 +8,9 @@ namespace AutomaticSharp.Auth
     /// </summary>
     public class AutomaticOptions : OAuthOptions
     {
+        /// <summary>
+        /// Initializes a new <see cref="AutomaticOptions"/>.
+        /// </summary>
         public AutomaticOptions()
         {
             AuthenticationScheme = AutomaticDefaults.AuthenticationScheme;
@@ -18,6 +21,10 @@ namespace AutomaticSharp.Auth
             UserInformationEndpoint = AutomaticDefaults.UserInformationEndpoint;
         }
 
+        /// <summary>
+        /// Adds a scope to the login request
+        /// </summary>
+        /// <param name="automaticScope"></param>
         public void AddScope(AutomaticScope automaticScope)
         {
             Scope.Add(automaticScope.GetScopeDescription());

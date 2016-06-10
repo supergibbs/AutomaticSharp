@@ -47,9 +47,7 @@ namespace AutomaticSharp.Auth
         public static string GetId(JObject user)
         {
             if (user == null)
-            {
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return user.Value<string>("id");
         }
@@ -57,9 +55,7 @@ namespace AutomaticSharp.Auth
         public static string GetFirstName(JObject user)
         {
             if (user == null)
-            {
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return user.Value<string>("first_name");
         }
@@ -67,9 +63,7 @@ namespace AutomaticSharp.Auth
         public static string GetLastName(JObject user)
         {
             if (user == null)
-            {
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return user.Value<string>("last_name");
         }
@@ -77,9 +71,7 @@ namespace AutomaticSharp.Auth
         public static string GetUserName(JObject user)
         {
             if (user == null)
-            {
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return user.Value<string>("username");
         }
@@ -87,9 +79,7 @@ namespace AutomaticSharp.Auth
         public static string GetEmail(JObject user)
         {
             if (user == null)
-            {
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return user.Value<string>("email");
         }
@@ -97,9 +87,7 @@ namespace AutomaticSharp.Auth
         public static string GetUrl(JObject user)
         {
             if (user == null)
-            {
                 throw new ArgumentNullException(nameof(user));
-            }
 
             return user.Value<string>("url");
         }

@@ -4,11 +4,12 @@ using AutomaticSharp.Auth;
 using AutomaticSharp.Demo.ViewModels;
 using AutomaticSharp.Requests;
 using AutoMapper;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Authentication;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AutomaticSharp.Demo.Controllers
 {
@@ -27,7 +28,8 @@ namespace AutomaticSharp.Demo.Controllers
 
             if(User.Identity.IsAuthenticated)
             {
-                var client = new Client(User.FindFirst(c => c.Type == "access_token").Value);
+                var accessToken = await Request.HttpContext.Authentication.GetTokenAsync("access_token");
+                var client = new Client(accessToken);
 
                 var vehicles = (await client.GetVehiclesAsync()).Results;
 
@@ -41,7 +43,9 @@ namespace AutomaticSharp.Demo.Controllers
         [Route("Home/Vehicle/{id}")]
         public async Task<IActionResult> Vehicle(string id)
         {
-            var client = new Client(User.FindFirst(c => c.Type == "access_token").Value);
+            var accessToken = await Request.HttpContext.Authentication.GetTokenAsync("access_token");
+            var client = new Client(accessToken);
+
             var getVehicleTask = client.GetVehicleAsync(id);
             var getTripsTask = client.GetTripsAsync(new TripsRequest { VehicleId = id });
 

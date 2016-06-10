@@ -1,14 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using AutomaticSharp.Auth;
 using AutomaticSharp.Demo.Config;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Authentication.OAuth;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNet.Http;
-using Microsoft.Extensions.WebEncoders;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace AutomaticSharp.Demo
 {
@@ -18,13 +18,15 @@ namespace AutomaticSharp.Demo
         {
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables();
-            if (env.IsDevelopment())
-            {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
-            }
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
+
+            if(env.IsDevelopment())
+                builder.AddUserSecrets(); // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+
+            builder.AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
@@ -34,36 +36,33 @@ namespace AutomaticSharp.Demo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(options => options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
-            
+
             // Add framework services.
             services.AddMvc();
 
-            services.AddInstance(AutoMapperConfig.Configure());
+            services.AddSingleton(AutoMapperConfig.Configure());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if(env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
                 app.UseExceptionHandler("/Home/Error");
 
-            app.UseIISPlatformHandler(); //app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
-
             app.UseStaticFiles();
 
-            app.UseCookieAuthentication(options =>
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                options.AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-                options.LoginPath = new PathString("/Home/Index/");
-                options.LogoutPath = new PathString("/Home/Logout/");
-                options.AccessDeniedPath = new PathString("/Home/Index/");
-                options.AutomaticAuthenticate = true;
-                options.AutomaticChallenge = true;
-                options.SlidingExpiration = true;
-                options.CookieName = "AUTOMATICSHARPDEMO";
+                AuthenticationScheme = CookieAuthenticationDefaults.AuthenticationScheme,
+                LoginPath = new PathString("/Home/Index/"),
+                LogoutPath = new PathString("/Home/Logout/"),
+                AccessDeniedPath = new PathString("/Home/Index/"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                SlidingExpiration = true,
+                CookieName = "AUTOMATICSHARPDEMO"
             });
 
             app.UseAutomaticAuthentication(options =>
@@ -71,6 +70,7 @@ namespace AutomaticSharp.Demo
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.ClientId = Configuration["automatic:clientid"];
                 options.ClientSecret = Configuration["automatic:clientsecret"];
+                options.SaveTokens = true;
 
                 options.AddScope(AutomaticScope.Public);
                 options.AddScope(AutomaticScope.UserProfile);
@@ -84,10 +84,9 @@ namespace AutomaticSharp.Demo
 
                 options.Events = new OAuthEvents()
                 {
-                    OnRemoteError = ctx =>
-
+                    OnRemoteFailure = ctx =>
                     {
-                        ctx.Response.Redirect("/Error?failureMessage=" + UrlEncoder.Default.UrlEncode(ctx.Error.Message));
+                        ctx.Response.Redirect("/Error?failureMessage=" + UrlEncoder.Default.Encode(ctx.Failure.Message));
                         ctx.HandleResponse();
                         return Task.FromResult(0);
                     }
@@ -96,8 +95,5 @@ namespace AutomaticSharp.Demo
 
             app.UseMvcWithDefaultRoute();
         }
-
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
