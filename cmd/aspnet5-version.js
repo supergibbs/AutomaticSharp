@@ -2,6 +2,7 @@ var jsonfile = require('jsonfile');
 var semver = require('semver');
 
 var file = '../src/AutomaticSharp/project.json';
+var file2 = '../src/AutomaticSharp.Auth/project.json';
 var semversion;
 
 if (process.env.APPVEYOR_REPO_TAG === 'true') {
@@ -17,6 +18,13 @@ if (process.env.APPVEYOR_REPO_TAG === 'true') {
 jsonfile.readFile(file, function(err, project) {
     project.version = semversion;
     jsonfile.writeFile(file, project, { spaces: 2 }, function(err) {
+        console.error(err);
+    });
+});
+
+jsonfile.readFile(file2, function(err, project) {
+    project.version = semversion;
+    jsonfile.writeFile(file2, project, { spaces: 2 }, function(err) {
         console.error(err);
     });
 });
