@@ -9,17 +9,17 @@ nuget:
 
 before_build:
 - cmd: >-
-	dotnet restore src\AutomaticSharp
-	dotnet restore src\AutomaticSharp.Auth
-	cd cmd
-    npm install
-    node aspnet5-version.js
-    cd ..
+  dotnet restore src\AutomaticSharp
+  dotnet restore src\AutomaticSharp.Auth
+  cd cmd
+  npm install
+  node aspnet5-version.js
+  cd ..
 
 build_script:
 - cmd: >-
-    dotnet pack src\AutomaticSharp --configuration Release --output "artifacts\bin\AutomaticSharp"
-    dotnet pack src\AutomaticSharp.Auth --configuration Release --output "artifacts\bin\AutomaticSharp"
+  dotnet pack src\AutomaticSharp --configuration Release --output "artifacts\bin\AutomaticSharp"
+  dotnet pack src\AutomaticSharp.Auth --configuration Release --output "artifacts\bin\AutomaticSharp"
 
 build:
   publish_nuget: true
