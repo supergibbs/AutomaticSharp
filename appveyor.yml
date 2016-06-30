@@ -1,40 +1,35 @@
-version: v1.0.5.{build}
+version: 1.0.5-CI{build}
 pull_requests:
-do_not_increment_build_number: true
-os: Visual Studio 2015
+  do_not_increment_build_number: true
+image: Visual Studio 2015
 configuration: Release
 nuget:
   account_feed: true
   project_feed: true
-
-before_build:
-- cmd: >-
-  dotnet restore src\AutomaticSharp
-  dotnet restore src\AutomaticSharp.Auth
-  cd cmd
-  npm install
-  node aspnet5-version.js
-  cd ..
-
 build_script:
 - cmd: >-
-  dotnet pack src\AutomaticSharp --configuration Release --output "artifacts\bin\AutomaticSharp"
-  dotnet pack src\AutomaticSharp.Auth --configuration Release --output "artifacts\bin\AutomaticSharp"
+    dotnet restore src\AutomaticSharp
 
-build:
-  publish_nuget: true
-  verbosity: minimal
+    dotnet restore src\AutomaticSharp.Auth
 
+    cd cmd
+
+    npm install
+
+    node aspnet5-version.js
+
+    cd ..
+
+    dotnet pack src\AutomaticSharp --configuration Release --output "artifacts\bin\AutomaticSharp"
+
+    dotnet pack src\AutomaticSharp.Auth --configuration Release --output "artifacts\bin\AutomaticSharp"
 artifacts:
 - path: artifacts\bin\AutomaticSharp\**\*.nupkg
   name: NuGet Packages
-
 deploy:
 - provider: NuGet
   api_key:
     secure: vclZPRGQBqWGDezZ6hXnmNRiILR+c7I2hqysI5leFRyCc89gd3W7ezyc9rWQ4VyO
-  symbol_server: 
-  artifact: 
   on:
     branch: master
     appveyor_repo_tag: true
