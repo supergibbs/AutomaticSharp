@@ -72,7 +72,7 @@ namespace AutomaticSharp
             }
 
             var request = new HttpRequestMessage(HttpMethod.Get, path);
-            var result = await _httpClient.SendAsync(request);
+            var result = await _httpClient.EnsureSuccessStatusCode().SendAsync(request);
             var content = await result.Content.ReadAsStringAsync();
 
             return new JsonNetSerializer().Deserialize<T>(content);
