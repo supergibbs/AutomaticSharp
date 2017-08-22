@@ -63,15 +63,12 @@ namespace AutomaticSharp
         {
             var path = resource;
 
-            if (parameters != null)
+            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            if (parameters != null && parameters.Count > 0)
             {
-                var query = new FormUrlEncodedContent(parameters).ToString();
-
-                if (string.IsNullOrEmpty(query))
-                    path += "?" + query;
+                request.Content = new FormUrlEncodedContent(parameters).ToString();
             }
 
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
             var result = await _httpClient.SendAsync(request);
             var content = await result.Content.ReadAsStringAsync();
 
