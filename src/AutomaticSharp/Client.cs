@@ -63,12 +63,13 @@ namespace AutomaticSharp
         {
             var path = resource;
 
-            if (parameters != null)
+            if (parameters != null && parameters.Count > 0)
             {
-                var query = new FormUrlEncodedContent(parameters).ToString();
-
-                if (string.IsNullOrEmpty(query))
-                    path += "?" + query;
+                path += "?";
+                foreach(var item in parameters)
+                {
+                    path += $"{item.Key}={Uri.EscapeDataString(item.Value)}&";
+                }
             }
 
             var request = new HttpRequestMessage(HttpMethod.Get, path);
