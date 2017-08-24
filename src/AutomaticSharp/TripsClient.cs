@@ -27,12 +27,12 @@ namespace AutomaticSharp
         /// </summary>
         /// <param name="tripsRequest"></param>
         /// <returns></returns>
-        public async Task<AutomaticCollection<Trip>> GetTripsAsync(TripsRequest tripsRequest = null)
+        public async Task<AutomaticCollection<Trip>> GetTripsAsync(TripsRequest tripsRequest)
         {
-            const string path = "trip/";
-
             if (tripsRequest == null)
-                return await GetAsync<AutomaticCollection<Trip>>(path);
+                throw new ArgumentNullException(nameof(tripsRequest));
+            
+            const string path = "trip/";
 
             return await GetAsync<AutomaticCollection<Trip>>(path, tripsRequest.CreateParameters());
         }

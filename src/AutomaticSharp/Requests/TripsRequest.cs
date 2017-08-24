@@ -8,14 +8,44 @@ namespace AutomaticSharp.Requests
     public class TripsRequest : RequestWithPaging
     {
         /// <summary>
+        /// Gets the recents trips in the past specified duration
+        /// </summary>
+        /// <param name="duration"></param>
+        public TripsRequest(string vehicleId, TimeSpan duration) : 
+            this(vehicleId, DateTime.UtcNow - duration, DateTime.UtcNow)
+        {
+        }
+
+        /// <summary>
+        /// Gets all recent trips since the startedAfter date
+        /// </summary>
+        /// <param name="startedAfter">Starting time of returned trips</param>
+        public TripsRequest(string vehicleId, DateTime startedAfter) :
+            this(vehicleId, startedAfter, DateTime.UtcNow)
+        {
+        }
+
+        /// <summary>
+        /// Gets all recent trips in the specified time duration
+        /// </summary>
+        /// <param name="startedAfter"></param>
+        /// <param name="startedBefore"></param>
+        public TripsRequest(string vehicleId, DateTime startedAfter, DateTime startedBefore)
+        {
+            VehicleId = vehicleId;
+            StartedAfter = startedAfter;
+            StartedBefore = startedBefore;
+        }
+        
+        /// <summary>
         /// Time the trip started on or before
         /// </summary>
-        public DateTime? StartedBefore { get; set; }
+        public DateTime StartedBefore { get; set; }
 
         /// <summary>
         /// Time the trip started on or after
         /// </summary>
-        public DateTime? StartedAfter { get; set; }
+        public DateTime StartedAfter { get; set; }
 
         /// <summary>
         /// Time the trip ended on or before
@@ -41,11 +71,11 @@ namespace AutomaticSharp.Requests
         {
             var parameters = base.CreateParameters();
 
-            if (StartedBefore.HasValue)
-                parameters.Add("started_at__lte", (StartedBefore.Value.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("started_at__lte", (StartedBefore.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds.ToString("0", CultureInfo.InvariantCulture));
 
-            if (StartedAfter.HasValue)
-                parameters.Add("started_at__gte", (StartedAfter.Value.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds.ToString(CultureInfo.InvariantCulture));
+            parameters.Add("started_at__gte", (StartedAfter.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds.ToString("0", CultureInfo.InvariantCulture));
+
+            parameters.Add("vehicle", VehicleId);
 
             if (EndedBefore.HasValue)
                 parameters.Add("ended_at__lte", (EndedBefore.Value.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds.ToString(CultureInfo.InvariantCulture));
