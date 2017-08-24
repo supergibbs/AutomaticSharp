@@ -11,11 +11,11 @@ namespace AutomaticSharp
         /// Dependent on scope:user:profile
         /// </summary>
         /// <returns><see cref="User"/></returns>
-        public async Task<AutomaticCollection<User>> GetUserInfoAsync(string userId = "me")
+        public async Task<User> GetUserInfoAsync(string userId = "me")
         {
             const string path = "user/";
 
-            return await GetAsync<AutomaticCollection<User>>(path + userId + "/");
+            return await GetAsync<User>(path + userId + "/");
         }
 
         /// <summary>
