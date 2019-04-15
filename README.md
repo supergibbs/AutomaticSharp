@@ -1,4 +1,5 @@
-[![NuGet](https://img.shields.io/nuget/v/AutomaticSharp.svg)](https://www.nuget.org/packages/AutomaticSharp)
+[![AutomaticSharp NuGet](https://img.shields.io/nuget/v/AutomaticSharp.svg)](https://www.nuget.org/packages/AutomaticSharp)
+[![AutomaticSharp.Auth NuGet](https://img.shields.io/nuget/v/AutomaticSharp.Auth.svg)](https://www.nuget.org/packages/AutomaticSharp.Auth)
 # AutomaticSharp 
 A C# client for Automatic's REST API. 
 
