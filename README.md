@@ -1,4 +1,3 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/nt6f9847b1mys8xx/branch/master?svg=true)](https://ci.appveyor.com/project/supergibbs/automaticsharp/branch/master)
 [![NuGet](https://img.shields.io/nuget/v/AutomaticSharp.svg)](https://www.nuget.org/packages/AutomaticSharp)
 # AutomaticSharp 
 A C# client for Automatic's REST API. 
@@ -7,11 +6,11 @@ A C# client for Automatic's REST API.
 
 ### Authentication
 
-The [Automatic OAuth2 Workflow](https://developer.automatic.com/api-reference/#oauth-workflow) can be completed using the `Microsoft.AspNet.Authentication.OAuth` framework.
+The [Automatic OAuth2 Workflow](https://developer.automatic.com/api-reference/#oauth-workflow) can be completed using the `Microsoft.AspNetCore.Authentication.OAuth` framework.
 
 In a modern webapp you can add this to your `startup.cs`
 ```c#
-app.UseAutomaticAuthentication(options =>
+services.AddAuthentication().AddAutomaticAuthentication(options =>
     {        
         //Add Automatic API key
         options.ClientId = Configuration["automatic:clientid"];
@@ -34,6 +33,8 @@ app.UseAutomaticAuthentication(options =>
 Using the Client you can query for data from Automatic's REST API. More examples can be found in the demo application which can be [viewed here](http://automaticsharp.azurewebsites.net/).
 
 ```c#
-var client = new Client(access_token);
+var accessToken = await HttpContext.GetTokenAsync("access_token");
+var client = new Client(accessToken);
+
 var vehicles = (await client.GetVehiclesAsync()).Results;
 ```
